@@ -1,10 +1,10 @@
-AC_INIT(ADC_001_Py,0.0.0, [support@deepsoft.com], ADC_001_Py)
+AC_INIT(adc001py,0.0.0, [support@deepsoft.com], adc001py)
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_SUBST(build)
 AC_CANONICAL_TARGET
 AC_SUBST(target)
-AC_CONFIG_SRCDIR(adc001py.i)
+AC_CONFIG_SRCDIR(CLib/adc001py.i)
 AM_INIT_AUTOMAKE
 AC_CONFIG_MACRO_DIR([m4])
 LT_INIT
@@ -44,6 +44,15 @@ AC_SUBST(PYTHON_LIBS)
 AC_SUBST(PYTHON_LDFLAGS)
 AC_SUBST(PYTHON_SO)
 
-AC_CONFIG_FILES([Makefile])
+AX_PKG_SWIG(1.3)
+AX_PKG_DOXYGEN(1.6.0, [], [ AC_MSG_ERROR([DOXYGEN 1.6.0 is required to build.]) ])
+
+AC_PATH_PROG(PRU_CC,clpru)
+AC_CONFIG_FILES([Makefile \
+                 CLib/Makefile \
+                 PRU/Makefile \
+                 Scripts/Makefile \
+                 DeviceTree/Makefile \
+                 Doc/Makefile])
 AC_OUTPUT
 

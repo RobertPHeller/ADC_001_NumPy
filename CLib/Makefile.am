@@ -7,8 +7,8 @@
 #  Date          : $Date$
 #  Author        : $Author$
 #  Created By    : Robert Heller
-#  Created       : Wed Apr 1 01:55:41 2020
-#  Last Modified : <200401.1412>
+#  Created       : Wed Apr 1 14:01:35 2020
+#  Last Modified : <200401.1521>
 #
 #  Description	
 #
@@ -43,8 +43,33 @@
 ##############################################################################
 
 
-ACLOCAL_AMFLAGS = -I m4
+pkgpyexec_LTLIBRARIES = adc001py.la
+adc001py_la_SOURCES = prussdrv.c pruss_intc_mapping.h \
+		      spidriver_host.h adcdriver_host.c \
+		      __prussdrv.h  adcdriver_host.h \
+		      prussdrv.h spidriver_host.c
+nodist_adc001py_la_SOURCES = adc001py.c
+adc001py_la_CFLAGS = $(PYTHON_CFLAGS) -I. -I../PRU
+adc001py_la_LDFLAGS =  -g -module $(PYTHON_LDFLAGS)
+adc001py_la_LIBADD = $(PYTHON_LIBS)
 
-SUBDIRS = CLib PRU Scripts Doc DeviceTree
+pkgpython_SCRIPTS = adc001py.py
 
-EXTRA_DIST = bootstrap 
+EXTRA_DIST = adc001py.i
+
+adc001py.c adc001py.py : adc001py.i
+	$(SWIG) -python -py3 -builtin -o adc001py.c adc001py.i
+
+install-pkgpyexecLTLIBRARIES: $(pkgpyexec_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	echo " $(MKDIR_P) '$(DESTDIR)$(pkgpyexecdir)'"
+	$(MKDIR_P) "$(DESTDIR)$(pkgpyexecdir)"
+	echo " $(INSTALL) $(INSTALL_STRIP_FLAG) .libs/adc001py.so.0.0.0 $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO)"
+	$(INSTALL) $(INSTALL_STRIP_FLAG) .libs/adc001py.so.0.0.0 $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO) || exit 1;
+
+
+uninstall-pkgpyexecLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	echo " rm -f $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO)"
+	rm -f $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO)
+

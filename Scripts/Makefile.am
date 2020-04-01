@@ -7,8 +7,8 @@
 #  Date          : $Date$
 #  Author        : $Author$
 #  Created By    : Robert Heller
-#  Created       : Wed Apr 1 01:55:41 2020
-#  Last Modified : <200401.1412>
+#  Created       : Wed Apr 1 14:01:59 2020
+#  Last Modified : <200401.1402>
 #
 #  Description	
 #
@@ -43,8 +43,3 @@
 ##############################################################################
 
 
-ACLOCAL_AMFLAGS = -I m4
-
-SUBDIRS = CLib PRU Scripts Doc DeviceTree
-
-EXTRA_DIST = bootstrap 
