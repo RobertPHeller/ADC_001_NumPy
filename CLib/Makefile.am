@@ -8,7 +8,7 @@
 #  Author        : $Author$
 #  Created By    : Robert Heller
 #  Created       : Wed Apr 1 14:01:35 2020
-#  Last Modified : <200401.1521>
+#  Last Modified : <200401.1748>
 #
 #  Description	
 #
@@ -53,9 +53,9 @@ adc001py_la_CFLAGS = $(PYTHON_CFLAGS) -I. -I../PRU
 adc001py_la_LDFLAGS =  -g -module $(PYTHON_LDFLAGS)
 adc001py_la_LIBADD = $(PYTHON_LIBS)
 
-pkgpython_SCRIPTS = adc001py.py
+pkgpython_SCRIPTS = adc001py.py __init__.py
 
-EXTRA_DIST = adc001py.i
+EXTRA_DIST = adc001py.i __init__.py
 
 adc001py.c adc001py.py : adc001py.i
 	$(SWIG) -python -py3 -builtin -o adc001py.c adc001py.i
@@ -72,4 +72,5 @@ uninstall-pkgpyexecLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
 	echo " rm -f $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO)"
 	rm -f $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO)
+
 

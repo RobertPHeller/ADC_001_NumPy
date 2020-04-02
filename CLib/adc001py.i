@@ -1,4 +1,4 @@
-/* -*- C -*- ****************************************************************
+/* -*- C -*- 
  *
  *  System        : 
  *  Module        : 
@@ -8,7 +8,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Wed Apr 1 02:00:57 2020
- *  Last Modified : <200401.1717>
+ *  Last Modified : <200401.2007>
  *
  *  Description	
  *
@@ -16,7 +16,7 @@
  *
  *  History
  *	
- ****************************************************************************
+ *--------------------------------------------------------------
  *
  *    Copyright (C) 2020  Robert Heller D/B/A Deepwoods Software
  *			51 Locke Hill Road
@@ -38,7 +38,16 @@
  *
  * 
  *
- ****************************************************************************/
+ */
+
+/** @mainpage 
+ * This Python module provides a basic set of functions to access the 
+ * ADC-001 BeagleBone Cape.
+ */
+
+/** @group adc001py The adc001py module
+ * @{
+ */
 
 %module(package="adc001py") adc001py
 %{
@@ -55,8 +64,10 @@ import os
 
 %include typemaps.i
 
-// Allowed sample rates.  These are set by the AD7172 hardware.
-// Consult the AD7172 datasheet for more info.  
+
+/** Allowed sample rates.  These are set by the AD7172 hardware.
+ *  Consult the AD7172 datasheet for more info.
+ */
 enum SampleRates {
     SAMP_RATE_31250=5,
           SAMP_RATE_15625=6,
@@ -74,22 +85,40 @@ enum SampleRates {
 // High level fcns which abstract away the need to know much about
 // interfacing to the A/D.
 /*void adc_config(void);*/
+
+/** @function void adc_config(void)
+ * Function to initialize the interface and get it ready to collect 
+ * samples.
+ */
 void adc_config(const char *pru_execpath);
 %pythoncode %{
 def adc_config() -> "void":
     libdir = os.path.dirname(__file__)
     #print(os.path.join(libdir,"pruexec"))
     _adc001py.adc_config(os.path.join(libdir,"pruexec"))
-%}      
-uint32_t adc_get_id_reg(void);
+%} 
+
+/** Fetch the ID register.
+ */
+int adc_get_id_reg(void);
+/** Shutdown the module. */
 void adc_quit(void);
+/** Reset the module. */
 void adc_reset(void);
+/** Set the sample rate. 
+ * @param rate The desired sample rate code.
+ */
 void adc_set_samplerate(int rate);
+/** Select channel 0. */
 void adc_set_chan0(void);
+/** Select channel 1. */
 void adc_set_chan1(void);
 
 
 // Data acquisition fcns.
+/** Fetch one sample.
+ * @returns A floating point number.
+ */
 float adc_read_single(void);
 
 #include <pymem.h>
@@ -108,4 +137,11 @@ float adc_read_single(void);
     PyMem_Free($2);
 }
 
-void adc_read_multiple(uint32_t read_cnt, float *volts);
+/** @function list adc_read_multiple(int read_cnt)
+ * Read up to 1024 samples.
+ * @param read_cnt The number of samples to get.
+ * @returns A list of samples.
+ */
+void adc_read_multiple(int read_cnt, float *volts);
+
+/** @} */

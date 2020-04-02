@@ -45,14 +45,11 @@ AC_SUBST(PYTHON_LDFLAGS)
 AC_SUBST(PYTHON_SO)
 
 AX_PKG_SWIG(1.3)
-AX_PKG_DOXYGEN(1.6.0, [], [ AC_MSG_ERROR([DOXYGEN 1.6.0 is required to build.]) ])
 
 AC_PATH_PROG(PRU_CC,clpru)
 AC_CONFIG_FILES([Makefile \
                  CLib/Makefile \
                  PRU/Makefile \
-                 Scripts/Makefile \
-                 DeviceTree/Makefile \
-                 Doc/Makefile])
+                 DeviceTree/Makefile])
 AC_OUTPUT
 
