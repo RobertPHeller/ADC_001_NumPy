@@ -8,7 +8,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Wed Apr 1 02:00:57 2020
- *  Last Modified : <200402.0926>
+ *  Last Modified : <200402.1005>
  *
  *  Description	
  *
@@ -61,9 +61,8 @@ import os
 %include typemaps.i
 
 
-%feature("autodoc", "2") SampleRates;
-%feature("docstring", "Allowed sample rates.
-These are set by the AD7172 hardware. Consult the AD7172 datasheet for more info.") SampleRates;
+// Allowed sample rates.
+// These are set by the AD7172 hardware. Consult the AD7172 datasheet for more info.
 enum SampleRates {
     SAMP_RATE_31250=5,
           SAMP_RATE_15625=6,
@@ -82,14 +81,14 @@ enum SampleRates {
 // interfacing to the A/D.
 /*void adc_config(void);*/
 
-%feature("autodoc","adc_config(void) -> void") adc_config;
-%feature("docstring", "Function to initialize the interface and get it ready to collect 
-samples.") adc_config;
 void adc_config(const char *pru_execpath);
 %pythoncode %{
 def adc_config() -> "void":
+    """adc_config(void) -> void
+    Function to initialize the interface and get it ready to collect 
+    samples.
+    """
     libdir = os.path.dirname(__file__)
-    #print(os.path.join(libdir,"pruexec"))
     _adc001py.adc_config(os.path.join(libdir,"pruexec"))
 %} 
 
@@ -103,10 +102,9 @@ void adc_quit(void);
 %feature("docstring", "Reset the module.") adc_reset;
 void adc_reset(void);
 %feature("autodoc","2") adc_set_samplerate;
-%feature("docstring", "Set the sample rate.") adc_set_samplerate;
-/** Set the sample rate. 
- * @param rate The desired sample rate code.
- */
+%feature("docstring", "Set the sample rate.
+The SAMP_RATE_* constants are available for the allowed sample rates.
+Consult the AD7172 datasheet for more info.") adc_set_samplerate;
 void adc_set_samplerate(int rate);
 %feature("autodoc","2") adc_set_chan0;
 %feature("docstring", "Select channel 0.") adc_set_chan0;
@@ -138,7 +136,13 @@ float adc_read_single(void);
 }
 
 %feature("autodoc","adc_read_multiple(read_cnt) -> list") adc_read_multiple;
-%feature("docstring","Read up to 1024 samples.") adc_read_multiple;
+%feature("docstring","Parameters
+----------
+read_cnt: int
+
+
+Read read_cnt samples (not more than 1024).
+Returns a list of floating point numbers that is read_cnt long") adc_read_multiple;
 void adc_read_multiple(int read_cnt, float *volts);
 
 /** @} */
