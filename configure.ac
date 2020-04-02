@@ -47,6 +47,8 @@ AC_SUBST(PYTHON_SO)
 AX_PKG_SWIG(1.3)
 
 AC_PATH_PROG(PRU_CC,clpru)
+AC_PATH_PROG(DTC,dtc)
+
 AC_CONFIG_FILES([Makefile \
                  CLib/Makefile \
                  PRU/Makefile \
