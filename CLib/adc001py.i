@@ -8,7 +8,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Wed Apr 1 02:00:57 2020
- *  Last Modified : <200401.2007>
+ *  Last Modified : <200402.0926>
  *
  *  Description	
  *
@@ -40,16 +40,12 @@
  *
  */
 
-/** @mainpage 
- * This Python module provides a basic set of functions to access the 
- * ADC-001 BeagleBone Cape.
- */
+%define DOCSTRING
+"This Python module provides a basic set of functions to access the 
+ADC-001 BeagleBone Cape."
+%enddef
 
-/** @group adc001py The adc001py module
- * @{
- */
-
-%module(package="adc001py") adc001py
+%module(docstring=DOCSTRING) adc001py
 %{
     static const char rcsid[] = "@(#) : $Id$";
 #include "spidriver_host.h"
@@ -65,9 +61,9 @@ import os
 %include typemaps.i
 
 
-/** Allowed sample rates.  These are set by the AD7172 hardware.
- *  Consult the AD7172 datasheet for more info.
- */
+%feature("autodoc", "2") SampleRates;
+%feature("docstring", "Allowed sample rates.
+These are set by the AD7172 hardware. Consult the AD7172 datasheet for more info.") SampleRates;
 enum SampleRates {
     SAMP_RATE_31250=5,
           SAMP_RATE_15625=6,
@@ -86,10 +82,9 @@ enum SampleRates {
 // interfacing to the A/D.
 /*void adc_config(void);*/
 
-/** @function void adc_config(void)
- * Function to initialize the interface and get it ready to collect 
- * samples.
- */
+%feature("autodoc","adc_config(void) -> void") adc_config;
+%feature("docstring", "Function to initialize the interface and get it ready to collect 
+samples.") adc_config;
 void adc_config(const char *pru_execpath);
 %pythoncode %{
 def adc_config() -> "void":
@@ -98,27 +93,32 @@ def adc_config() -> "void":
     _adc001py.adc_config(os.path.join(libdir,"pruexec"))
 %} 
 
-/** Fetch the ID register.
- */
+%feature("autodoc","2") adc_get_id_reg;
+%feature("docstring", "Fetch the ID register.") adc_get_id_reg;
 int adc_get_id_reg(void);
-/** Shutdown the module. */
+%feature("autodoc","2") adc_quit;
+%feature("docstring", "Shutdown the module.") adc_quit;
 void adc_quit(void);
-/** Reset the module. */
+%feature("autodoc","2") adc_reset;
+%feature("docstring", "Reset the module.") adc_reset;
 void adc_reset(void);
+%feature("autodoc","2") adc_set_samplerate;
+%feature("docstring", "Set the sample rate.") adc_set_samplerate;
 /** Set the sample rate. 
  * @param rate The desired sample rate code.
  */
 void adc_set_samplerate(int rate);
-/** Select channel 0. */
+%feature("autodoc","2") adc_set_chan0;
+%feature("docstring", "Select channel 0.") adc_set_chan0;
 void adc_set_chan0(void);
-/** Select channel 1. */
+%feature("autodoc","2") adc_set_chan1;
+%feature("docstring", "Select channel 1.") adc_set_chan1;
 void adc_set_chan1(void);
 
 
 // Data acquisition fcns.
-/** Fetch one sample.
- * @returns A floating point number.
- */
+%feature("autodoc","2") adc_read_single;
+%feature("docstring", "Fetch one sample.") adc_read_single;
 float adc_read_single(void);
 
 #include <pymem.h>
@@ -137,11 +137,8 @@ float adc_read_single(void);
     PyMem_Free($2);
 }
 
-/** @function list adc_read_multiple(int read_cnt)
- * Read up to 1024 samples.
- * @param read_cnt The number of samples to get.
- * @returns A list of samples.
- */
+%feature("autodoc","adc_read_multiple(read_cnt) -> list") adc_read_multiple;
+%feature("docstring","Read up to 1024 samples.") adc_read_multiple;
 void adc_read_multiple(int read_cnt, float *volts);
 
 /** @} */
