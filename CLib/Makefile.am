@@ -8,7 +8,7 @@
 #  Author        : $Author$
 #  Created By    : Robert Heller
 #  Created       : Wed Apr 1 14:01:35 2020
-#  Last Modified : <200401.2044>
+#  Last Modified : <200418.1451>
 #
 #  Description	
 #
@@ -43,34 +43,36 @@
 ##############################################################################
 
 
-pkgpyexec_LTLIBRARIES = adc001py.la
-adc001py_la_SOURCES = prussdrv.c pruss_intc_mapping.h \
+
+EXTRA_DIST = prussdrv.c pruss_intc_mapping.h \
 		      spidriver_host.h adcdriver_host.c \
 		      __prussdrv.h  adcdriver_host.h \
-		      prussdrv.h spidriver_host.c
-nodist_adc001py_la_SOURCES = adc001py.c
-adc001py_la_CFLAGS = $(PYTHON_CFLAGS) -I. -I../PRU
-adc001py_la_LDFLAGS =  -g -module -avoid-version $(PYTHON_LDFLAGS)
-adc001py_la_LIBADD = $(PYTHON_LIBS)
+		      prussdrv.h spidriver_host.c \
+		      adc001py.i __init__.py setup.py
 
-pkgpython_SCRIPTS = adc001py.py __init__.py
+pkgpyexec_SCRIPTS = __init__.py
 
-EXTRA_DIST = adc001py.i __init__.py
+BUILTEXT = build/lib.$(PYTHON_PLATFORM)-$(target_cpu)-$(PYTHON_VERSION)/_adc001py$(PYTHON_SO)
+BUILTPKG = build/lib.$(PYTHON_PLATFORM)-$(target_cpu)-$(PYTHON_VERSION)/adc001py.py
 
-adc001py.c adc001py.py : adc001py.i
-	$(SWIG) -python -py3 -builtin -o adc001py.c adc001py.i
 
-install-pkgpyexecLTLIBRARIES: $(pkgpyexec_LTLIBRARIES)
-	@$(NORMAL_INSTALL)
+$(BUILTEXT) $(BUILTPKG):	
+	$(PYTHON) setup.py build
+
+all: all-am $(BUILTEXT) $(BUILTPKG)
+         
+
+install-exec-hook: $(BUILTEXT) $(BUILTPKG)
 	echo " $(MKDIR_P) '$(DESTDIR)$(pkgpyexecdir)'"
 	$(MKDIR_P) "$(DESTDIR)$(pkgpyexecdir)"
-	echo " $(INSTALL) $(INSTALL_STRIP_FLAG) .libs/adc001py.so $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO)"
-	$(INSTALL) $(INSTALL_STRIP_FLAG) .libs/adc001py.so $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO) || exit 1;
+	echo " $(INSTALL_PROGRAM) $(BUILTEXT) $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO)"
+	$(INSTALL_PROGRAM) $(BUILTEXT) $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO) || exit 1;
+	echo " $(INSTALL_SCRIPT) $(BUILTPKG) $(DESTDIR)$(pkgpyexecdir)/adc001py.py"
+	$(INSTALL_SCRIPT) $(BUILTPKG) $(DESTDIR)$(pkgpyexecdir)/adc001py.py || exit 1
 
-
-uninstall-pkgpyexecLTLIBRARIES:
-	@$(NORMAL_UNINSTALL)
+uninstall-hook:
 	echo " rm -f $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO)"
 	rm -f $(DESTDIR)$(pkgpyexecdir)/_adc001py$(PYTHON_SO)
-
+	echo " rm -f $(DESTDIR)$(pkgpyexecdir)/adc001py.py
+	rm -f $(DESTDIR)$(pkgpyexecdir)/adc001py.py
 
