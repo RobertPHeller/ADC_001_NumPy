@@ -8,7 +8,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Wed Apr 1 02:00:57 2020
- *  Last Modified : <200402.1005>
+ *  Last Modified : <200419.1829>
  *
  *  Description	
  *
@@ -50,6 +50,7 @@ ADC-001 BeagleBone Cape."
     static const char rcsid[] = "@(#) : $Id$";
 #include "spidriver_host.h"
 #include "adcdriver_host.h"
+#include <pymem.h>
 %}
 
 %pythonbegin %{
@@ -119,15 +120,14 @@ void adc_set_chan1(void);
 %feature("docstring", "Fetch one sample.") adc_read_single;
 float adc_read_single(void);
 
-#include <pymem.h>
 
-%typemap(in,numinputs=1) (uint32_t read_cnt, float *volts) {
+%typemap(in,numinputs=1) (int read_cnt, float *volts) {
     $1 = PyInt_AsLong($input);
     $2 = (float *) PyMem_Calloc($1,sizeof(float));
     
 }
 
-%typemap(argout) (uint32_t read_cnt, float *volts) {
+%typemap(argout) (int read_cnt, float *volts) {
     $result = PyList_New($1);
     for (int i=0;i < $1; i++) {
         PyList_SetItem($result, i, PyFloat_FromDouble($2[i]));
@@ -143,6 +143,6 @@ read_cnt: int
 
 Read read_cnt samples (not more than 1024).
 Returns a list of floating point numbers that is read_cnt long") adc_read_multiple;
+
 void adc_read_multiple(int read_cnt, float *volts);
 
-/** @} */

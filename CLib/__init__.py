@@ -2,4 +2,6 @@
 ADC-001 Python Bindings
 """
 
-__all__ = ["adc001py"]
+from . import adc001py
+from adc001py import *
+
