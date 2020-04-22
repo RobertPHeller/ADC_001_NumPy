@@ -8,7 +8,7 @@
 #  Author        : $Author$
 #  Created By    : Robert Heller
 #  Created       : Wed Apr 1 01:55:41 2020
-#  Last Modified : <200401.2018>
+#  Last Modified : <200422.1827>
 #
 #  Description	
 #
@@ -47,4 +47,4 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = CLib PRU DeviceTree
 
-EXTRA_DIST = bootstrap 
+EXTRA_DIST = bootstrap test.py sample.py
