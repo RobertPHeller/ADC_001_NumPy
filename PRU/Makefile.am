@@ -8,7 +8,7 @@
 #  Author        : $Author$
 #  Created By    : Robert Heller
 #  Created       : Wed Apr 1 14:01:48 2020
-#  Last Modified : <200401.1526>
+#  Last Modified : <200422.1836>
 #
 #  Description	
 #
@@ -68,6 +68,8 @@ PRU_HEXPRU_SCRIPT = bin.cmd
 
 EXTRA_DIST = $(PRU_INCLUDES) $(PRU0_SRCS) $(PRU1_SRCS) \
 		$(PRU_HEXPRU_SCRIPT) $(PRU_LINKER_SCRIPT)
+
+CLEANFILES = *.bin *.bin *.map *.obj
 
 pru0.out: pru0.c pru_spi.c $(PRU_INCLUDES)
 	$(PRU_CC) pru0.c pru_spi.c $(PRU_CC_FLAGS) -z $(PRU_LINKER_SCRIPT) -o $@ -m $(PRU0_MAP)

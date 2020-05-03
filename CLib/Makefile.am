@@ -8,7 +8,7 @@
 #  Author        : $Author$
 #  Created By    : Robert Heller
 #  Created       : Wed Apr 1 14:01:35 2020
-#  Last Modified : <200418.1451>
+#  Last Modified : <200422.1836>
 #
 #  Description	
 #
@@ -76,3 +76,8 @@ uninstall-hook:
 	echo " rm -f $(DESTDIR)$(pkgpyexecdir)/adc001py.py
 	rm -f $(DESTDIR)$(pkgpyexecdir)/adc001py.py
 
+CLEANFILES =  adc001py.c adc001py.py
+clean-local: clean-local-check
+.PHONY: clean-local-check
+clean-local-check:
+	-rm -rf build          

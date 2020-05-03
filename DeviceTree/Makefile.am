@@ -8,7 +8,7 @@
 #  Author        : $Author$
 #  Created By    : Robert Heller
 #  Created       : Wed Apr 1 14:12:22 2020
-#  Last Modified : <200402.0851>
+#  Last Modified : <200422.1837>
 #
 #  Description	
 #
@@ -51,3 +51,5 @@ firmware_DATA = ADC_001-00A0.dtbo
 
 ADC_001-00A0.dtbo : ADC_001.dts
 	$(DTC) -O dtb -o ADC_001-00A0.dtbo -b 0 -@ ADC_001.dts
+
+CLEANFILES = ADC_001-00A0.dtbo

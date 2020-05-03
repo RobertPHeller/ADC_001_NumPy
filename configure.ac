@@ -1,4 +1,4 @@
-AC_INIT(adc001py,0.0.0, [support@deepsoft.com], adc001py)
+AC_INIT(adc001py,0.0.1, [support@deepsoft.com], adc001py)
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_SUBST(build)

@@ -124,7 +124,7 @@ void spi_reset_cmd(void) {
   int i;
   int N;
   volatile uint32_t tmp;
-  printf("Sending reset command to PRU.....\n");
+  //printf("Sending reset command to PRU.....\n");
 
   pru_write_word(0, SPI_RESET);
 
@@ -183,7 +183,7 @@ uint32_t pru_test_ram(uint32_t offset, uint32_t value) {
   const uint32_t ram_offset = RAMOFFSET;
   uint32_t retval;
 
-  printf("----> Entered pru_test_ram, value to write = %d\n", value);
+  //printf("----> Entered pru_test_ram, value to write = %d\n", value);
 
   // Write input to PRU RAM
   pru_write_word(offset, value);
@@ -191,15 +191,15 @@ uint32_t pru_test_ram(uint32_t offset, uint32_t value) {
   // Read value back out PRU RAM
   retval = pru_read_word(offset);
 
-  printf("      In pru_test_ram, value read back = %d\n", retval);
+  //printf("      In pru_test_ram, value read back = %d\n", retval);
 
-  if (value == retval) {
-    printf("      ram test passed!\n");
-  } else {
-    printf("      ram test faialed!\n");
-  }
+  //if (value == retval) {
+  //  printf("      ram test passed!\n");
+  //} else {
+  //  printf("      ram test faialed!\n");
+  //}
 
-  printf("<---- Leaving pru_test_ram\n");
+  //printf("<---- Leaving pru_test_ram\n");
 
   return retval;
 }
@@ -211,8 +211,8 @@ uint32_t pru_test_communication(void) {
   volatile uint32_t tmp;
   
   // Now give it flag so it can go and do its thing
-  printf("------> Entered pru_test_communication....\n");
-  printf("        send SPI_TEST to PRU to test communication link...\n");
+  //printf("------> Entered pru_test_communication....\n");
+  //printf("        send SPI_TEST to PRU to test communication link...\n");
   pru_write_word(0, SPI_TEST);
 
   // Now wait until write is complete.
@@ -224,13 +224,13 @@ uint32_t pru_test_communication(void) {
       break;
     }
   }
-  printf("          In pru_test_communication, at end of waiting, i = %d, tmp = %d\n", i, tmp);
-  if (i == N) {
-    printf("        Communications test failed!\n");
-  } else {
-    printf("        Communications test passed!\n");
-  }
-  printf("<------ Leaving pru_test_communication.\n");
+  //printf("          In pru_test_communication, at end of waiting, i = %d, tmp = %d\n", i, tmp);
+  //if (i == N) {
+  //  printf("        Communications test failed!\n");
+  //} else {
+  //  printf("        Communications test passed!\n");
+  //}
+  //printf("<------ Leaving pru_test_communication.\n");
   return i;
 }
 

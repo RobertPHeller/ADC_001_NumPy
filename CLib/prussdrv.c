@@ -59,8 +59,6 @@
 
 #include <sys/mman.h>
 
-#define DEBUG 1
-
 
 #ifdef __DEBUG
 #define DEBUG_PRINTF(FORMAT, ...) fprintf(stderr, FORMAT, ## __VA_ARGS__)
@@ -153,10 +151,10 @@ int __prussdrv_memmap_init(void)
         DEBUG_PRINTF(PRUSS_UNKNOWN_STR "\n");
     }
 
-printf("prussdrv.pru0_dataram_base = 0x%08x\n", prussdrv.pru0_dataram_base);
-printf("prussdrv.pru0_dataram_phy_base = 0x%08x\n", prussdrv.pru0_dataram_phy_base);
-printf("prussdrv.pruss_map_size = 0x%08x\n", prussdrv.pruss_map_size);
-
+    DEBUG_PRINTF("prussdrv.pru0_dataram_base = 0x%08x\n", prussdrv.pru0_dataram_base);
+    DEBUG_PRINTF("prussdrv.pru0_dataram_phy_base = 0x%08x\n", prussdrv.pru0_dataram_phy_base);
+    DEBUG_PRINTF("prussdrv.pruss_map_size = 0x%08x\n", prussdrv.pruss_map_size);
+    
     prussdrv.pru1_dataram_base =
         prussdrv.pru0_dataram_base + prussdrv.pru1_dataram_phy_base -
         prussdrv.pru0_dataram_phy_base;
@@ -270,8 +268,8 @@ int prussdrv_open(unsigned int host_interrupt)
     if (!prussdrv.fd[host_interrupt]) {
         sprintf(name, "/dev/uio%d", host_interrupt);
 
-printf("In prussdrv_open, opening %s\n", name);
-
+        DEBUG_PRINTF("In prussdrv_open, opening %s\n", name);
+        
         prussdrv.fd[host_interrupt] = open(name, O_RDWR | O_SYNC);
         if (prussdrv.fd[host_interrupt] == -1) {
             return -1;
@@ -570,8 +568,8 @@ int prussdrv_map_prumem(unsigned int pru_ram_id, void **address)
     switch (pru_ram_id) {
     case PRUSS0_PRU0_DATARAM:
 
-printf("Now mapping prumem, prussdrv.pru0_dataram_base = 0x%08x\n", prussdrv.pru0_dataram_base);
-
+        DEBUG_PRINTF("Now mapping prumem, prussdrv.pru0_dataram_base = 0x%08x\n", prussdrv.pru0_dataram_base);
+        
         *address = prussdrv.pru0_dataram_base;
         break;
     case PRUSS0_PRU1_DATARAM:
